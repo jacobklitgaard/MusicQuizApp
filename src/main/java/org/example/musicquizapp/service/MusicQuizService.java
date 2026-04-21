@@ -23,7 +23,6 @@ public class MusicQuizService {
         this.openAiClient = openAiClient;
     }
 
-    // QUIZ QUESTION
     public Mono<QuizQuestionDTO> generateQuestion(SearchRequestDTO request) {
 
         return deezerClient.searchTracks(request)
@@ -31,26 +30,41 @@ public class MusicQuizService {
 
                     var tracks = response.getData();
 
+                    System.out.println("🎵 Tracks fra Deezer: " + (tracks != null ? tracks.size() : "null"));
+
                     if (tracks == null || tracks.isEmpty()) {
-                        return Mono.error(new RuntimeException("No tracks found"));
+                        return Mono.just(emptyQuiz("Ingen sange fundet – prøv en anden genre"));
                     }
 
-                    var playableTracks = tracks.stream()
+                    // Forsøg 1: kun tracks med preview
+                    var playableTracks = new ArrayList<>(tracks.stream()
                             .filter(t -> t.getPreview() != null && !t.getPreview().isBlank())
-                            .toList();
+                            .toList());
 
+                    System.out.println("🎵 Tracks med preview: " + playableTracks.size());
+
+                    // Forsøg 2: brug alle tracks hvis for få med preview
                     if (playableTracks.size() < 3) {
-                        return Mono.error(new RuntimeException("Not enough tracks"));
+                        playableTracks = new ArrayList<>(tracks);
+                        System.out.println("⚠️ Falder tilbage til alle tracks: " + playableTracks.size());
                     }
 
-                    var correctTrack = playableTracks.get(
-                            (int) (Math.random() * playableTracks.size())
-                    );
+                    // Stadig for få — giv op
+                    if (playableTracks.size() < 3) {
+                        return Mono.just(emptyQuiz("Ikke nok sange – prøv en anden genre"));
+                    }
+
+                    Collections.shuffle(playableTracks);
+
+                    var correctTrack = playableTracks.get(0);
+
+                    System.out.println("✅ Valgt sang: " + correctTrack.getName() + " – " + correctTrack.getArtistName());
 
                     var wrongOptions = playableTracks.stream()
                             .filter(t -> !t.getId().equals(correctTrack.getId()))
                             .map(t -> t.getName())
-                            .filter(name -> name != null)
+                            .filter(name -> name != null && !name.isBlank())
+                            .distinct()
                             .limit(2)
                             .toList();
 
@@ -59,97 +73,40 @@ public class MusicQuizService {
                     options.addAll(wrongOptions);
                     Collections.shuffle(options);
 
-                    String preview = correctTrack.getPreview();
-
-                    String type = Math.random() > 0.5 ? "TITLE" : "ARTIST";
-
-                    String correctAnswer = "ARTIST".equals(type)
-                            ? correctTrack.getArtistName()
-                            : correctTrack.getName();
-
-                    return openAiClient.generateOpenAiQuestion(
-                                    type,
-                                    correctTrack.getName(),
-                                    correctTrack.getArtistName(),
-                                    ""
-                            )
-                            .onErrorReturn("Hvilken sang er dette?")
-                            .map(aiQuestion ->
-                                    new QuizQuestionDTO(
-                                            aiQuestion,
-                                            options,
-                                            correctAnswer,
-                                            type,
-                                            preview,
-                                            correctTrack.getId()
-                                    )
-                            );
+                    return Mono.just(new QuizQuestionDTO(
+                            "Hvad hedder sangen?",
+                            options,
+                            correctTrack.getName(),
+                            "TITLE",
+                            correctTrack.getPreview(),
+                            correctTrack.getId(),
+                            correctTrack.getArtistName()
+                    ));
                 });
     }
 
-    // BONUS QUESTION (FIXED)
-    public Mono<QuizQuestionDTO> generateBonusQuestion(String trackId) {
-
-        return deezerClient.getTrack(trackId)
-                .map(track -> {
-
-                    String preview = track.getPreview();
-
-                    String bonusType = switch ((int) (Math.random() * 3)) {
-                        case 0 -> "YEAR";
-                        case 1 -> "ENERGY";
-                        default -> "BPM";
-                    };
-
-                    String question = switch (bonusType) {
-                        case "YEAR" -> "Hvilket år blev denne sang udgivet?";
-                        case "ENERGY" -> "Hvor energisk er denne sang (lav, medium, høj)?";
-                        case "BPM" -> "Hvad er tempoet (BPM) i denne sang?";
-                        default -> "Bonus spørgsmål";
-                    };
-
-                    String correctAnswer = switch (bonusType) {
-                        case "YEAR" -> "2010";
-                        case "ENERGY" -> "medium";
-                        case "BPM" -> "120";
-                        default -> "";
-                    };
-
-                    return new QuizQuestionDTO(
-                            question,
-                            List.of("low", "medium", "high"),
-                            correctAnswer,
-                            bonusType,
-                            preview,
-                            track.getId()
-                    );
-                });
-    }
-
-    // ANSWER CHECK (FIXED SAFE STRING HANDLING)
     public Mono<Boolean> checkAnswer(QuizAnswerDTO answer) {
 
         return deezerClient.getTrack(answer.getTrackId())
                 .map(track -> {
 
-                    if (track == null) return false;
-
-                    String userAnswer = answer.getAnswer();
-
-                    if (userAnswer == null || userAnswer.isBlank()) {
+                    if (track == null || answer.getAnswer() == null) {
                         return false;
                     }
 
-                    userAnswer = userAnswer.trim();
-
-                    String trackName = track.getName();
-
-                    String artistName = track.getArtist() != null
-                            ? track.getArtist().getName()
-                            : "";
-
-                    return userAnswer.equalsIgnoreCase(trackName)
-                            || userAnswer.equalsIgnoreCase(artistName);
+                    return answer.getAnswer().trim().equalsIgnoreCase(track.getName());
                 });
+    }
+
+    private QuizQuestionDTO emptyQuiz(String message) {
+        return new QuizQuestionDTO(
+                message,
+                List.of("Ingen data"),
+                null,
+                "TITLE",
+                null,
+                null,
+                null
+        );
     }
 }

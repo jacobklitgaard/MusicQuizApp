@@ -2,32 +2,21 @@
 <html lang="da">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Music Quiz</title>
-    <script defer src="js/main.js"></script>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-<h1>Music Quiz</h1>
+<h1>🎵 Music Quiz</h1>
 
-<!-- Genre -->
 <label for="genre">Vælg genre:</label>
 <select id="genre">
+    <option value="">-- Vælg genre --</option>
     <option value="pop">Pop</option>
     <option value="rock">Rock</option>
-    <option value="hip hop">Hip Hop</option>
-    <option value="edm">EDM</option>
-</select>
-
-<br><br>
-
-<!-- Decade -->
-<label for="decade">Vælg årti:</label>
-<select id="decade">
-    <option value="1980">1980'erne</option>
-    <option value="1990">1990'erne</option>
-    <option value="2000">2000'erne</option>
-    <option value="2010">2010'erne</option>
-    <option value="2020">2020'erne</option>
+    <option value="hiphop">Hip Hop</option>
+    <option value="jazz">Jazz</option>
 </select>
 
 <br><br>
@@ -37,6 +26,8 @@
 <hr>
 
 <div id="quiz"></div>
+
+<script src="js/quiz.js"></script>
 
 </body>
 </html>

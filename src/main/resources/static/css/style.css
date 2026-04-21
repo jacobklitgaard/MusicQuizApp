@@ -1,0 +1,98 @@
+/* 🌍 Base */
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+    color: #ffffff;
+    text-align: center;
+}
+
+/* 🧠 Titel */
+h1 {
+    margin-top: 30px;
+    font-size: 2.5rem;
+    letter-spacing: 1px;
+}
+
+/* 📦 container */
+#quiz {
+    max-width: 600px;
+    margin: 30px auto;
+    padding: 20px;
+}
+
+/* 🎯 spørgsmål */
+h2 {
+    font-size: 1.4rem;
+    margin-bottom: 20px;
+}
+
+/* 🎧 audio player */
+audio {
+    width: 100%;
+    margin: 15px 0;
+    border-radius: 10px;
+}
+
+/* 🔘 knapper */
+button {
+    display: block;
+    width: 100%;
+    padding: 12px 15px;
+    margin: 10px 0;
+    font-size: 1rem;
+    font-weight: bold;
+
+    border: none;
+    border-radius: 12px;
+
+    background: #334155;
+    color: white;
+
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+/* ✨ hover effekt */
+button:hover {
+    background: #3b82f6;
+    transform: scale(1.02);
+}
+
+/* 🟢 korrekt / rigtigt feedback (kan bruges senere) */
+button.correct {
+    background: #22c55e;
+}
+
+/* 🔴 forkert feedback */
+button.wrong {
+    background: #ef4444;
+}
+
+/* 🧾 score */
+h3 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    color: #93c5fd;
+}
+
+/* 🧩 dropdown styling */
+select {
+    padding: 8px;
+    border-radius: 8px;
+    border: none;
+    margin: 5px;
+    font-size: 1rem;
+}
+
+/* 🚀 start knap */
+button[onclick="startQuiz()"] {
+    background: #f59e0b;
+    color: black;
+    font-size: 1.1rem;
+    padding: 12px 20px;
+}
+
+button[onclick="startQuiz()"]:hover {
+    background: #fbbf24;
+}
