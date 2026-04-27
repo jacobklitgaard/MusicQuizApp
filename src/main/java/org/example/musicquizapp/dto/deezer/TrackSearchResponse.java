@@ -5,7 +5,6 @@ import lombok.Setter;
 
 import java.util.List;
 
-// FIX: Manglede @Getter/@Setter — Jackson kunne ikke deserialisere Deezer-svaret
 @Getter
 @Setter
 public class TrackSearchResponse {

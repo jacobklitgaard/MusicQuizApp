@@ -5,13 +5,14 @@ import org.example.musicquizapp.dto.request.Message;
 import org.example.musicquizapp.dto.response.ChatResponseDTO;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
 
-@Service
+@Component
 public class OpenAiClient {
 
     private final WebClient webClient;
@@ -35,16 +36,15 @@ public class OpenAiClient {
         );
     }
 
-    // Bruges af MusicQuizService til at generere quizspørgsmål
-    public Mono<String> generateOpenAiQuestion(String type, String trackName, String artistName, String extra) {
-        String prompt = "ARTIST".equals(type)
-                ? "Lav et kort quizspørgsmål på dansk, der spørger om kunstneren bag sangen \"" + trackName + "\". Kun selve spørgsmålet, ingen svar."
-                : "Lav et kort quizspørgsmål på dansk om sangen \"" + trackName + "\" af " + artistName + ". Kun selve spørgsmålet, ingen svar.";
+    public Mono<String> generateHint(String trackName, String artistName) {
+        String prompt = "Giv et kort hint på dansk om sangen \"" + trackName + "\" af " + artistName + ". " +
+                "Afslør IKKE sangtitlen eller kunstnernavnet i hintet. " +
+                "Beskriv stemningen, årtiet, eller en sjov detalje om sangen.";
 
         return sendRequest(
-                "Du er en sjov musikquiz-vært. Stil korte, klare spørgsmål på dansk.",
+                "Du er en musikquiz-vært der giver hints uden at afsløre svaret.",
                 prompt,
-                60,
+                80,
                 0.8
         );
     }

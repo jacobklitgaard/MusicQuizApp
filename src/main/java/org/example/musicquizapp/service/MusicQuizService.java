@@ -41,7 +41,7 @@ public class MusicQuizService {
                             .filter(t -> t.getPreview() != null && !t.getPreview().isBlank())
                             .toList());
 
-                    System.out.println("🎵 Tracks med preview: " + playableTracks.size());
+                    System.out.println("Tracks med preview: " + playableTracks.size());
 
                     // Forsøg 2: brug alle tracks hvis for få med preview
                     if (playableTracks.size() < 3) {
@@ -59,6 +59,7 @@ public class MusicQuizService {
                     var correctTrack = playableTracks.get(0);
 
                     System.out.println("✅ Valgt sang: " + correctTrack.getName() + " – " + correctTrack.getArtistName());
+                    playableTracks.forEach(t -> System.out.println(t.getName() + " – " + t.getArtistName()));
 
                     var wrongOptions = playableTracks.stream()
                             .filter(t -> !t.getId().equals(correctTrack.getId()))
@@ -80,7 +81,8 @@ public class MusicQuizService {
                             "TITLE",
                             correctTrack.getPreview(),
                             correctTrack.getId(),
-                            correctTrack.getArtistName()
+                            correctTrack.getArtistName(),
+                            correctTrack.getAlbumCover()
                     ));
                 });
     }
@@ -104,6 +106,7 @@ public class MusicQuizService {
                 List.of("Ingen data"),
                 null,
                 "TITLE",
+                null,
                 null,
                 null,
                 null

@@ -14,9 +14,10 @@ public class QuizQuestionDTO {
     private String type;
     private String preview;
     private String trackId;
-    private String artistName;  // FIX: tilføjet så frontend kan kalde fun fact API
+    private String artistName;
+    private String albumCover;
 
-    public QuizQuestionDTO(String question, List<String> options, String correctAnswer, String type, String preview, String trackId, String artistName) {
+    public QuizQuestionDTO(String question, List<String> options, String correctAnswer, String type, String preview, String trackId, String artistName, String albumCover) {
         this.question = question;
         this.options = options;
         this.correctAnswer = correctAnswer;
@@ -24,5 +25,6 @@ public class QuizQuestionDTO {
         this.preview = preview;
         this.trackId = trackId;
         this.artistName = artistName;
+        this.albumCover = albumCover;
     }
 }

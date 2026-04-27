@@ -8,7 +8,7 @@
 </head>
 <body>
 
-<h1>🎵 Music Quiz</h1>
+<h1>🎵 Musikquiz</h1>
 
 <label for="genre">Vælg genre:</label>
 <select id="genre">
@@ -23,7 +23,13 @@
 
 <button onclick="startQuiz()">Start Quiz</button>
 
-<hr>
+<!-- 👇 Progress bar ligger udenfor #quiz så den ikke slettes -->
+<div id="progress-container" style="display:none">
+    <p id="progress-text">Spørgsmål 1 af 10</p>
+    <div id="progress-bar-bg">
+        <div id="progress-bar"></div>
+    </div>
+</div>
 
 <div id="quiz"></div>
 

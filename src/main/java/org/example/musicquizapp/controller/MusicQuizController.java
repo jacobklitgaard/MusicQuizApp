@@ -1,6 +1,7 @@
 package org.example.musicquizapp.controller;
 
 import org.example.musicquizapp.client.OpenAiClient;
+import org.example.musicquizapp.dto.request.HintRequestDTO;
 import org.example.musicquizapp.dto.request.SearchRequestDTO;
 import org.example.musicquizapp.dto.response.QuizAnswerDTO;
 import org.example.musicquizapp.dto.response.QuizQuestionDTO;
@@ -14,17 +15,13 @@ import reactor.core.publisher.Mono;
 public class MusicQuizController {
 
     private final MusicQuizService musicQuizService;
-    private final OpenAiClient openAiClient; // FIX: injecter i stedet for statisk kald
+    private final OpenAiClient openAiClient;
 
     public MusicQuizController(MusicQuizService musicQuizService, OpenAiClient openAiClient) {
         this.musicQuizService = musicQuizService;
         this.openAiClient = openAiClient;
     }
 
-    @GetMapping("/test")
-    public String test() {
-        return "API virker!";
-    }
 
     @PostMapping("/quiz")
     public Mono<QuizQuestionDTO> generateQuiz(@RequestBody SearchRequestDTO request) {
@@ -34,6 +31,11 @@ public class MusicQuizController {
     @PostMapping("/quiz/funfact")
     public Mono<String> getFunFact(@RequestBody String artistName) {
         return openAiClient.generateFunFact(artistName); // FIX: lille 'o' — instans-kald
+    }
+
+    @PostMapping("/quiz/hint")
+    public Mono<String> getHint(@RequestBody HintRequestDTO request) {
+        return openAiClient.generateHint(request.getTrackName(), request.getArtistName());
     }
 
     @PostMapping("/quiz/answer")

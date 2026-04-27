@@ -88,6 +88,8 @@ select {
 /* 🚀 start knap */
 button[onclick="startQuiz()"] {
     background: #f59e0b;
+    max-width: 300px;
+    margin: 0 auto;
     color: black;
     font-size: 1.1rem;
     padding: 12px 20px;
@@ -95,4 +97,29 @@ button[onclick="startQuiz()"] {
 
 button[onclick="startQuiz()"]:hover {
     background: #fbbf24;
+}
+
+#progress-container {
+    margin-bottom: 20px;
+}
+
+#progress-text {
+    font-size: 0.9rem;
+    color: #93c5fd;
+    margin-bottom: 6px;
+}
+
+#progress-bar-bg {
+    background: #334155;
+    border-radius: 10px;
+    height: 10px;
+    width: 100%;
+}
+
+#progress-bar {
+    background: #3b82f6;
+    border-radius: 10px;
+    height: 10px;
+    width: 0%;
+    transition: width 0.4s ease;
 }

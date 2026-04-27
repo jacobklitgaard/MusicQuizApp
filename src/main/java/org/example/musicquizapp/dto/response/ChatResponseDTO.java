@@ -5,7 +5,6 @@ import lombok.Setter;
 
 import java.util.List;
 
-// FIX: Var tom — nu kan Jackson faktisk deserialisere OpenAI's svar
 @Getter
 @Setter
 public class ChatResponseDTO {

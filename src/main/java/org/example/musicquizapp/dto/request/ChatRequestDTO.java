@@ -5,7 +5,6 @@ import lombok.Setter;
 
 import java.util.List;
 
-// FIX: Flyttet ud af SearchRequestDTO til sin egen fil
 @Getter
 @Setter
 public class ChatRequestDTO {

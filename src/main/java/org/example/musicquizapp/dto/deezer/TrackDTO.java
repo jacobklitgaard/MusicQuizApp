@@ -17,6 +17,7 @@ public class TrackDTO {
     private String preview;
 
     private ArtistDTO artist;
+    private CoverDTO album;
 
     public String getName() {
         return title;
@@ -28,5 +29,9 @@ public class TrackDTO {
 
     public String getArtistName() {
         return artist != null ? artist.getName() : "Unknown";
+    }
+
+    public String getAlbumCover() {
+        return album != null ? album.getCoverMedium() : null; // 👈
     }
 }

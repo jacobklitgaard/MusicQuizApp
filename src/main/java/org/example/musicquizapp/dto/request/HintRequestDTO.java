@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class SearchRequestDTO {
-    private String genre;
-    private String decade;
+public class HintRequestDTO {
+    private String trackName;
+    private String artistName;
 }
