@@ -29,6 +29,11 @@ jobs:
       - name: Test forbindelse
         run: nc -zv 20.251.162.59 22
 
+      - name: Debug nøgle
+        run: |
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" | head -1
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" | tail -1
+
       - name: Deploy til Azure VM
         run: |
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > /tmp/deploy_key
