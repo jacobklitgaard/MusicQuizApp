@@ -115,7 +115,7 @@ function renderQuiz(data) {
         hintBtn.textContent = "Henter hint...";
 
         try {
-            const res = await fetch("http://localhost:8080/api/quiz/hint", {
+            const res = await fetch("http://20.251.162.59:8080/api/quiz/hint", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
@@ -167,7 +167,7 @@ async function checkAnswer(selected, correct, trackId, artistName, albumCover) {
 
     if (artistName) {
         try {
-            const res = await fetch("http://localhost:8080/api/quiz/funfact", {
+            const res = await fetch("http://20.251.162.59:8080/api/quiz/funfact", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(artistName)
