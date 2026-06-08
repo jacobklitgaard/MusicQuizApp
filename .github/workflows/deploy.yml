@@ -32,6 +32,7 @@ jobs:
           host: ${{ secrets.VM_HOST }}
           username: azureuser
           key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
           script: |
             docker rm -f musicquiz || true
             docker pull jacobklitgaard/musicquiz:1.0
