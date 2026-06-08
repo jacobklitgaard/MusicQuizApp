@@ -26,6 +26,9 @@ jobs:
           push: true
           tags: jacobklitgaard/musicquiz:1.0
 
+      - name: Test forbindelse
+        run: nc -zv 20.251.162.59 22
+
       - name: Deploy til Azure VM
         uses: appleboy/ssh-action@v1
         with:
