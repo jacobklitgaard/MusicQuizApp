@@ -1,4 +1,5 @@
 console.log("JS loaded");
+console.log("test")
 
 const TOTAL_QUESTIONS = 10;
 let currentQuestion = 0;
