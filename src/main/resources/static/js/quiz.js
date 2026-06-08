@@ -34,7 +34,7 @@ async function nextQuestion() {
 
 async function fetchQuestion(genre) {
     try {
-        const response = await fetch("http://localhost:8080/api/quiz", {
+        const response = await fetch("http://20.251.162.59:8080/api/quiz", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({genre : genre})
