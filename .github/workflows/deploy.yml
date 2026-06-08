@@ -36,7 +36,7 @@ jobs:
 
       - name: Deploy til Azure VM
         run: |
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > /tmp/deploy_key
+          printf '%s\n' "${{ secrets.SSH_PRIVATE_KEY }}" > /tmp/deploy_key
           chmod 600 /tmp/deploy_key
           ssh -i /tmp/deploy_key -o StrictHostKeyChecking=no azureuser@${{ secrets.VM_HOST }} "
             docker rm -f musicquiz || true
