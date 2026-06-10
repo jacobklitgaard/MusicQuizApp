@@ -26,6 +26,11 @@ jobs:
           push: true
           tags: jacobklitgaard/musicquiz:1.0
 
+      - name: Debug secrets
+        run: |
+          echo "Host sat: ${{ secrets.SSH_HOST != '' }}"
+          echo "User sat: ${{ secrets.SSH_USER != '' }}"
+
       - name: Deploy til Azure VM
         run: |
           printf '%s\n' "${{ secrets.SSH_PRIVATE_KEY }}" > /tmp/deploy_key
