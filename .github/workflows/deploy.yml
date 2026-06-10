@@ -35,6 +35,9 @@ jobs:
           push: true
           tags: jacobklitgaard/musicquiz:1.0
 
+      - name: Vis GitHub Actions IP
+        run: curl ifconfig.me
+
       - name: Deploy til Azure VM
         run: |
           printf '%s\n' "${{ secrets.SSH_PRIVATE_KEY }}" > /tmp/deploy_key
