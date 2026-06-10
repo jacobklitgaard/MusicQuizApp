@@ -35,7 +35,7 @@ jobs:
           push: true
           tags: jacobklitgaard/musicquiz:1.0
 
-      - name: Deploy til Azure VM
+      - name: Deploy til Azure
         run: |
           printf '%s\n' "${{ secrets.SSH_PRIVATE_KEY }}" > /tmp/deploy_key
           chmod 600 /tmp/deploy_key
