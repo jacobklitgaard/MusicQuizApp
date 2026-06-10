@@ -40,8 +40,8 @@ jobs:
           printf '%s\n' "${{ secrets.SSH_PRIVATE_KEY }}" > /tmp/deploy_key
           chmod 600 /tmp/deploy_key
           ssh -i /tmp/deploy_key -o StrictHostKeyChecking=no jacobklitgaard@${{ secrets.VM_HOST }} "
-            docker pull jacobklitgaard/musicquiz:1.0 &&
-            docker stop musicquiz || true &&
-            docker rm musicquiz || true &&
-            docker run -d --name musicquiz -p 8080:8080 jacobklitgaard/musicquiz:1.0
+            cd /home/jacobklitgaard/musicquiz &&
+            echo 'OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}' > .env &&
+            docker-compose pull &&
+            docker-compose up -d
           "
