@@ -73,7 +73,7 @@ class MusicQuizServiceTest {
         // Act & Assert
         // 💥 Vi forventer true men får false — pipelinen bliver rød
         StepVerifier.create(musicQuizService.checkAnswer(answer))
-                .expectNext(true) // ← forkert med vilje
+                .expectNext(false) // ← forkert med vilje
                 .verifyComplete();
     }
 }
