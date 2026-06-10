@@ -26,18 +26,11 @@ jobs:
           push: true
           tags: jacobklitgaard/musicquiz:1.0
 
-      - name: Debug secrets
-        run: |
-          echo "Host sat: ${{ secrets.SSH_HOST != '' }}"
-          echo "User sat: ${{ secrets.SSH_USER != '' }}"
-
       - name: Deploy til Azure VM
         run: |
           printf '%s\n' "${{ secrets.SSH_PRIVATE_KEY }}" > /tmp/deploy_key
           chmod 600 /tmp/deploy_key
-          ssh -i /tmp/deploy_key -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "
-            docker pull jacobklitgaard/musicquiz:1.0 &&
-            docker stop musicquiz || true &&
-            docker rm musicquiz || true &&
-            docker run -d --name musicquiz -p 80:8080 jacobklitgaard/musicquiz:1.0
-          "
+          cat /tmp/deploy_key | wc -l
+          head -1 /tmp/deploy_key
+          tail -1 /tmp/deploy_key
+          ssh-keygen -l -f /tmp/deploy_key
