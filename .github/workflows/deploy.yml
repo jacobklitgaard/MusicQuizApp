@@ -39,7 +39,8 @@ jobs:
         run: |
           printf '%s\n' "${{ secrets.SSH_PRIVATE_KEY }}" > /tmp/deploy_key
           chmod 600 /tmp/deploy_key
-          cat /tmp/deploy_key | wc -l
-          head -1 /tmp/deploy_key
-          tail -1 /tmp/deploy_key
-          ssh-keygen -l -f /tmp/deploy_key
+          ssh -i /tmp/deploy_key -o StrictHostKeyChecking=no azureuser@${{ secrets.VM_HOST }} "
+            cd /home/azureuser/musicquiz &&
+            docker compose pull &&
+            docker compose up -d
+          "
