@@ -12,6 +12,15 @@ jobs:
       - name: Checkout kode
         uses: actions/checkout@v3
 
+      - name: Sæt Java op
+        uses: actions/setup-java@v3
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Byg og test med Maven
+        run: mvn --batch-mode test
+
       - name: Log ind på Docker Hub
         uses: docker/login-action@v3
         with:
